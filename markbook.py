@@ -5,6 +5,27 @@ Markbook Application
 Group members: 
 """
 
+def gui():
+    print('==================')
+    print('=====markbook=====')
+    print('Type 1 to create a classroom')
+    print('Type 2 to see all classes')
+    print('Type 0 to exit')
+    choice = int(input())
+    while True and choice != 0:
+        if choice == 1:
+            print('Fill in the classroom information')
+            course_code = input('Select course code')
+            course_name = input('Select course name')
+            period = int(input('Select period'))
+            teacher = input('Select teacher')
+            create_classroom(course_code, course_name, period, teacher)
+        elif choice == 2:
+            list_classrooms()
+        else:
+            print('invalid choice')
+            choice = int(input())
+
 
 def create_assignment(name: str, due: str, points: int) -> Dict:
     return {"name": name, "due": due, "points": points}
