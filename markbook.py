@@ -34,6 +34,7 @@ def remove_assignment(assignment: Dict, classroom: Dict):
     return None
 
 
+
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
     return {
         "course_code": course_code,
@@ -104,4 +105,8 @@ def print_report(classroom: Dict):
 def store_student_information(classroom: dict):
     with open("class_data.json", "w") as write_file:
         json.dump(classroom, write_file)
+    return None
+
+def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
+    student["marks"].append(Mark_of_assignment)
     return None
