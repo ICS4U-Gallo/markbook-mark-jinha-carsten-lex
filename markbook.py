@@ -184,3 +184,10 @@ def assignment_report(classroom: Dict):
         contents = f.read()
     print(contents)
     return None
+
+def write_to_file_students_alphabetically(classroom: Dict):
+    alphabetically = sort_students_alphabetically(classroom)
+    ccode = classroom["class_code"]
+    with open(ccode+"names"+".txt", "w") as f:
+        for names in alphabetically:
+            f.write("names \n")
