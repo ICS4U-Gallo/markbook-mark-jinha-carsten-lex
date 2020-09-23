@@ -4,7 +4,6 @@ import json
 Markbook Application
 Group members: 
 """
-
 def gui():
     print('==================')
     print('=====markbook=====')
@@ -21,11 +20,16 @@ def gui():
             teacher = input('Select teacher')
             create_classroom(course_code, course_name, period, teacher)
         elif choice == 2:
-            list_classrooms()
+            #list_classrooms()
+            pass
         else:
             print('invalid choice')
             choice = int(input())
 
+def store_class_information(classroom: dict):
+    with open("class_data.json", "w") as write_file:
+        json.dump(classroom, write_file)
+    return None
 
 def create_assignment(name: str, due: str, points: int) -> Dict:
     return {"name": name, "due": due, "points": points}
@@ -55,7 +59,6 @@ def remove_assignment(assignment: Dict, classroom: Dict):
     return None
 
 
-
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
     return {
         "course_code": course_code,
@@ -66,6 +69,13 @@ def create_classroom(course_code: str, course_name: str, period: int, teacher: s
         "assignment_list": []
     }
 
+def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
+    student["marks"].append(Mark_of_assignment)
+    return None
+
+def sort_students_alphabetically(classroom: Dict):
+    alphabetically = sorted(classroom["student_list"])
+    return alphabetically
 
 def calculate_average_mark(student: Dict) -> float:
     marks = student["marks"]
@@ -116,22 +126,61 @@ def class_average(classroom: Dict) -> float:
     return class_avg
 
 
-def print_report(classroom: Dict):
-    print("======================")
-    print("        Report        ")
-    print("Class: " + str(classroom["course_code"]))
-    print("Class Average: " + str(class_average(classroom)))
+def student_report(classroom: Dict, student: Dict):
+    first = student["first_name"]
+    last = student["last_name"]
+
+    with open(first+"_"+last+".txt", "w") as f:
+        f.write("======================\n")
+        f.write("        Report        \n")
+        f.write("Class: " + classroom["course_code"]+"\n")
+        f.write("Student: " + first + " " + last + "\n")
+        f.write("Class Average: " + str(class_average(classroom))+"\n")
+        f.write("Mark Breakdown: \n")
+        string = ""
+        index = 0
+        for i in order_marks(student):
+            if index == 7:
+                index = 0
+                f.write("\n")
+            f.write(str(i)+" ")
+            index += 1
+
+        f.write(string + "\n")
+
+        f.write("Comments:\n")
+        f.write(student["comments"]+"\n")
+        f.write("======================\n")
+    with open(first+"_"+last+".txt", "r") as f:
+        contents = f.read()
+    print(contents)
     return None
 
-def store_student_information(classroom: dict):
-    with open("class_data.json", "w") as write_file:
-        json.dump(classroom, write_file)
-    return None
+def assignment_report(classroom: Dict):
+    ccode = classroom["course_code"]
+    with open(ccode + "_" + "assignments" + ".txt", "w") as f:
+        f.write("======================\n")
+        f.write("   Assignment Report  \n")
+        f.write("\n")
+        f.write("Class: "+ ccode+ "\n")
+        f.write("\n")
+        for i in classroom["assignment_list"]:
+            if len(i["name"]) > 16:
+                f.write("Name: " + i["name"][:15]+ "\n")
+                f.write(i["name"][15:]+ "\n")
+                f.write("Due Date: " + i["due"] + "\n")
+                f.write("Points: /" + i["points"] + "\n")
+                f.write("\n")
 
-def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
-    student["marks"].append(Mark_of_assignment)
-    return None
+            else:
+                f.write("Name: " + i["name"]+ "\n")
+                f.write("Due Date: "+ i["due"]+"\n")
+                f.write("Points: /"+ i["points"]+"\n")
+                f.write("\n")
 
-def sort_students_alphabetically(classroom: list):
-    alphabetically = sorted(classroom["student_list"])
-    return alphabetically
+        f.write("======================\n")
+
+    with open(ccode + "_" + "assignments"+".txt", "r") as f:
+        contents = f.read()
+    print(contents)
+    return None
