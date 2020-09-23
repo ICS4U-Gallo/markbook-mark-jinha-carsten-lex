@@ -131,3 +131,7 @@ def store_student_information(classroom: dict):
 def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
     student["marks"].append(Mark_of_assignment)
     return None
+
+def sort_students_alphabetically(classroom: list):
+    alphabetically = sorted(classroom["student_list"])
+    return alphabetically
