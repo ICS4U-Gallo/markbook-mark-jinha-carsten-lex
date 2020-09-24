@@ -191,3 +191,16 @@ def write_to_file_students_alphabetically(classroom: Dict):
     with open(ccode+"names"+".txt", "w") as f:
         for names in alphabetically:
             f.write("names \n")
+            
+def create_assignment_interface(room: str):
+    print()
+    print('Fill in the assignment information')
+    print('---------------------------------')
+    aname = input('Name of assignment: ')
+    due_date = input("Due date of assignment:")
+    pointers = int(input('Total points: '))
+    assignment_list = room["assignment_list"]
+    assignment = create_assignment(aname, due_date, pointers)
+    assignment_list.append(assignment)
+    print()
+    return assignment_list
