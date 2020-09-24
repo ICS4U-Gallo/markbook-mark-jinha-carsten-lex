@@ -4,30 +4,218 @@ import json
 Markbook Application
 Group members: 
 """
+
+classroom_list = []
+
+
 def gui():
-    print('==================')
-    print('=====markbook=====')
-    print('Type 1 to create a classroom')
-    print('Type 2 to see all classes')
-    print('Type 0 to exit')
-    choice = int(input())
-    while True and choice != 0:
+    while True:
+        print('       Markbook       ')
+        print('----------------------')
+        print('(1) Create A Classroom')
+        print('(2) View All Classes')
+        print('(0) Exit')
+        print('')
+        print('Type and press enter  ')
+        print('to select your choice ')
+        print('----------------------')
+
+        choice = int(input("Choice: "))
+
         if choice == 1:
-            print('Fill in the classroom information')
-            course_code = input('Select course code')
-            course_name = input('Select course name')
-            period = int(input('Select period'))
-            teacher = input('Select teacher')
-            create_classroom(course_code, course_name, period, teacher)
+            classroom_creation_interface()
+
         elif choice == 2:
-            #list_classrooms()
-            pass
+            view_classrooms()
+
+        elif choice == 0:
+            return None
+
         else:
             print('invalid choice')
-            choice = int(input())
+
+
+def view_classrooms():
+    print()
+    print('        Classes       ')
+    print('----------------------')
+    if classroom_list == []:
+        print("No Classes added.")
+        print()
+        return
+    index = 1
+    for i in classroom_list:
+        print("("+ str(index)+ ")", i["course_code"], i["teacher"])
+        index += 1
+
+    print()
+    print('Type and press enter  ')
+    print('to select your choice ')
+    print('----------------------')
+    option = int(input("Choice: "))
+    if option > len(classroom_list):
+        print("Incorrect Value")
+        return None
+    classroom_students_assignments(option)
+    return None
+
+
+
+def classroom_creation_interface():
+    print()
+    print('Fill in the classroom information')
+    print('---------------------------------')
+    ccode = input('Course Code: ')
+    cname = input('Course Name: ')
+    period = int(input('Period Number: '))
+    teacher = input('Name of Teacher: ')
+    temp_class = create_classroom(ccode, cname, period, teacher)
+    classroom_list.append(temp_class)
+    print()
+    return None
+
+def classroom_students_assignments(option):
+    room = classroom_list[option-1]
+    while True:
+        print()
+        print(room["course_name"], room["teacher"])
+        print('---------------------------------')
+        print('(1) Create Students')
+        print('(2) View Students')
+        print('(3) Create Assignments')
+        print('(4) View Assignments')
+        print('(5) Store class on a file')
+        print('(6) View Class information')
+        print('(0) Exit')
+        print('')
+        print('Type and press enter  ')
+        print('to select your choice ')
+        print('---------------------------------')
+        selection = int(input("Choice: "))
+        if selection == 0:
+            return None
+
+        if selection == 1:
+            student = student_creation_interface()
+            room["student_list"].append(student)
+
+        if selection == 2:
+            room["student_list"] = student_view(room)
+
+        else:
+            print("Incorrect Value")
+
+
+def student_creation_interface():
+    first_name = str(input("First Name: "))
+    last_name = str(input("Last Name: "))
+    gender = str(input("Gender: "))
+    image = input("Image: ")
+    student_number = int(input("Student Number: "))
+    grade = int(input("Grade: "))
+    email = str(input("Email: "))
+    print('Hit "enter" after entering all the marks')
+    marks = [int(item) for item in input("Enter the marks: ").split()]
+    print('Hit "enter" when done')
+    comments = str(input("Comments: "))
+    return create_student(first_name, last_name, gender,
+                   image, student_number, grade,
+                   email, marks, comments)
+
+def student_view(room):
+    student_list = room["student_list"]
+    print()
+    print('Students:', room["course_name"])
+    print('----------------------')
+    if student_list == []:
+        print("No students added.")
+        print()
+        return student_list
+    index = 1
+    for i in student_list:
+        print("(" + str(index) + ")", i["first_name"], i["last_name"])
+        index += 1
+
+    print()
+    print('Type and press enter  ')
+    print('to select your choice ')
+    print('----------------------')
+    print()
+    option = int(input("Choice: "))
+    student_list = student_editor(option, student_list, room)
+    return student_list
+
+def student_editor(option, student_list, room):
+    while True:
+        student = student_list[option - 1]
+        print('----------------------')
+        print('(1) View Information')
+        print('(2) Edit Student')
+        print('(3) Remove Student')
+        print('(4) Make Report Card')
+        print('(0) Exit')
+        print()
+        print('Type and press enter  ')
+        print('to select your choice ')
+        print('----------------------')
+        selection = int(input("Choice: "))
+        if selection == 0:
+            return student_list
+
+        elif selection == 1:
+            for items in student.items():
+                print(str(items[0])+" "+str(items[1]))
+
+        elif selection == 2:
+            print('Press "enter" to keep it the same')
+            first_name = str(input("First Name: "))
+            last_name = str(input("Last Name: "))
+            gender = str(input("Gender: "))
+            image = input("Image: ")
+            student_number = input("Student Number: ")
+            grade = input("Grade: ")
+            email = str(input("Email: "))
+            comments = str(input("Comments: "))
+            info = {"first_name": first_name,
+            "last_name": last_name,
+            "gender": gender,
+            "image": image,
+            "student_number": student_number,
+            "grade": grade,
+            "email": email,
+            "comments": comments}
+            edit_student(student, **info)
+
+        elif selection == 3:
+            if len(student_list) == 1:
+                return []
+
+            else:
+                student_list.pop(option-1)
+
+            return student_list
+
+        elif selection == 4:
+            student_report(room, student)
+
+def create_assignment_interface(room: Dict)-> List:
+    print()
+    print('Fill in the assignment information')
+    print('---------------------------------')
+    aname = input('Name of assignment: ')
+    due_date = input("Due date of assignment:")
+    pointers = int(input('Total points: '))
+    assignment_list = room["assignment_list"]
+    assignment = create_assignment(aname, due_date, pointers)
+    assignment_list.append(assignment)
+    print()
+    return assignment_list
+
+
+
 
 def store_class_information(classroom: dict):
-    with open("class_data.json", "w") as write_file:
+    with open("class_data.txt", "w") as write_file:
         json.dump(classroom, write_file)
     return None
 
@@ -60,6 +248,7 @@ def remove_assignment(assignment: Dict, classroom: Dict):
 
 
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
+
     return {
         "course_code": course_code,
         "course_name": course_name,
@@ -68,6 +257,7 @@ def create_classroom(course_code: str, course_name: str, period: int, teacher: s
         "student_list": [],
         "assignment_list": []
     }
+
 
 def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
     student["marks"].append(Mark_of_assignment)
@@ -104,7 +294,8 @@ def order_marks(student: Dict):
 
 def edit_student(student: Dict, **kwargs: Dict):
     for i in kwargs.items():
-        student[i[0]] = i[1]
+        if i[1] != None and i[1] != "":
+            student[i[0]] = i[1]
 
     return None
 
@@ -185,22 +376,4 @@ def assignment_report(classroom: Dict):
     print(contents)
     return None
 
-def write_to_file_students_alphabetically(classroom: Dict):
-    alphabetically = sort_students_alphabetically(classroom)
-    ccode = classroom["class_code"]
-    with open(ccode+"names"+".txt", "w") as f:
-        for names in alphabetically:
-            f.write("names \n")
-            
-def create_assignment_interface(room: str):
-    print()
-    print('Fill in the assignment information')
-    print('---------------------------------')
-    aname = input('Name of assignment: ')
-    due_date = input("Due date of assignment:")
-    pointers = int(input('Total points: '))
-    assignment_list = room["assignment_list"]
-    assignment = create_assignment(aname, due_date, pointers)
-    assignment_list.append(assignment)
-    print()
-    return assignment_list
+gui()
