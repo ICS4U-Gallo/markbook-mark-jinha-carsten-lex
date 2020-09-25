@@ -103,4 +103,21 @@ def test_create_student():
     assert student["grade"] == 12
     assert student["email"] == "Alexander.Jorge21@ycdsbk12.ca"
     assert student["marks"] == [101, 99, 97, 102]
-    assert student["comments"] == "Exceptional student"    
+    assert student["comments"] == "Exceptional student"   
+    
+    
+def test_add_assignment():
+    assignment = markbook.create_assignment("Math CPT", "October 21, 1999", 100)
+    classroom = markbook.create_classroom("MHF4U", "Advanced Functions", 3, "Mr.Smith", ["Emma", "Ethan", "Nicholas"], [])
+    markbook.add_assignment(assignment, classroom)
+    assert len(classroom["assignment_list"]) == 1
+    assert type(classroom["assignment_list"]) is list
+    
+def test_remove_assignment():
+    assignment = markbook.create_assignment ("Math CPT", "October 21, 1999", 100)
+    classroom = markbook.create_classroom("MHF4U", "Advanced Functions", 3, "Mr.Smith", ["Emma", "Ethan", "Nicholas"], [])
+    markbook.add_assignment(assignment, classroom)
+    assert len(classroom["assignment_list"]) == 1
+    markbook.remove_assignment(assignment, classroom)
+    assert len(classroom["assignment_list"]) == 0
+    assert type(classroom["assignment_list"]) is list
