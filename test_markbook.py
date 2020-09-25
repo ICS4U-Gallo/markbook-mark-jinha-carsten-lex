@@ -91,3 +91,16 @@ def test_edit_student():
     assert student["first_name"] == "Frank"
     assert student["last_name"] == "Bell"
     assert student["grade"] == 10
+
+    
+def test_create_student():
+    student = markbook.create_student("Alexander", "Jorge", "Male", None, 123456, 12, "Alexander.Jorge21@ycdsbk12.ca", [101,99, 97, 102], "Exceptional student")
+    assert student["first_name"] == "Alexander"
+    assert student["last_name"] == "Jorge"
+    assert student["gender"] == "Male"
+    assert student["image"] is None 
+    assert student["student_number"] == 123456
+    assert student["grade"] == 12
+    assert student["email"] == "Alexander.Jorge21@ycdsbk12.ca"
+    assert student["marks"] == [101, 99, 97, 102]
+    assert student["comments"] == "Exceptional student"    
