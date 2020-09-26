@@ -144,3 +144,16 @@ def test_order_marks():
     assert student["marks"] == [40, 65, 87, 97, 99, 102, 300]
     assert len(student["marks"]) == 7
     assert type(student["marks"]) is list    
+    
+    
+def test_class_average():
+    Jayden = markbook.create_student("Jayden", "Smith", "Male", None, 5678910, 10, "Jayden.Smith34@ycdsbk12.ca", [50, 60, 70, 80], None)
+    Samuel = markbook.create_student("Samuel", "Jiang", "Male", None, 8765432, 10, "Samuel.Jiang34@ycdsbk12.ca", [90, 30, 70, 50], None)
+    Emma = markbook.create_student("Emma", "Winnasdale". "female", None, 9567823, 10, "Emma.Winnasdale34@ycdsbk12.ca", [60, 100, 70, 80], None)
+    classroom = markbook.create_classroom("MHF4U", "Advanced Functions", 3, "Mr.Smith", [], [])
+    markbook.add_student_to_classroom(Jayden ,classroom)
+    markbook.add_student_to_classroom(Samuel ,classroom)
+    markbook.add_student_to_classroom(Emma ,classroom)
+    assert classroom["student_list"] == 3
+    markbook.class_average(classroom)
+    assert class_avg == 67.5
