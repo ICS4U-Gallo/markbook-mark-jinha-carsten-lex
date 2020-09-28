@@ -435,6 +435,10 @@ def remove_student_from_classroom(student: Dict, classroom: Dict):
     classroom["student_list"].remove(student)
     return None
 
+def change_student_classroom(student: Dict, original_classroom: Dict, new_classroom: Dict):
+    remove_student_from_classroom(student, original_classroom)
+    add_student_to_classroom(student, new_classroom)
+
 def order_marks(student: Dict):
     marks = student["marks"]
     return sorted(marks)
