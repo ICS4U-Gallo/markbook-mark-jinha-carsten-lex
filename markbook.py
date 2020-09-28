@@ -164,7 +164,7 @@ def student_creation_interface():
     student_number = integer_input("Student Number: ")
     grade = integer_input("Grade: ")
     email = str(input("Email: "))
-    print('Hit "enter" after entering all the marks or entering no marks')
+    print('Hit "enter" after entering all the marks or enter no marks')
     marks = [int(item) for item in input("Enter the marks: ").split()]
     print('Hit "enter" when done')
     comments = str(input("Comments: "))
