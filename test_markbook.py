@@ -94,7 +94,7 @@ def test_edit_student():
 
     
 def test_create_student():
-    student = markbook.create_student("Alexander", "Jorge", "Male", None, 123456, 12, "Alexander.Jorge21@ycdsbk12.ca", [101,99, 97, 102], "Exceptional student")
+    student = markbook.create_student("Alexander", "Jorge", "Male", None, 123456, 12, "Alexander.Jorge21@ycdsbk12.ca", [], "Exceptional student")
     assert student["first_name"] == "Alexander"
     assert student["last_name"] == "Jorge"
     assert student["gender"] == "Male"
@@ -102,7 +102,7 @@ def test_create_student():
     assert student["student_number"] == 123456
     assert student["grade"] == 12
     assert student["email"] == "Alexander.Jorge21@ycdsbk12.ca"
-    assert student["marks"] == [101, 99, 97, 102]
+    assert student["marks"] == []
     assert student["comments"] == "Exceptional student"   
     
     
@@ -147,13 +147,13 @@ def test_order_marks():
     
     
 def test_class_average():
-    Jayden = markbook.create_student("Jayden", "Smith", "Male", None, 5678910, 10, "Jayden.Smith34@ycdsbk12.ca", [50, 60, 70, 80], None)
-    Samuel = markbook.create_student("Samuel", "Jiang", "Male", None, 8765432, 10, "Samuel.Jiang34@ycdsbk12.ca", [90, 30, 70, 50], None)
-    Emma = markbook.create_student("Emma", "Winnasdale". "female", None, 9567823, 10, "Emma.Winnasdale34@ycdsbk12.ca", [60, 100, 70, 80], None)
+    jayden = markbook.create_student("Jayden", "Smith", "Male", None, 5678910, 10, "Jayden.Smith34@ycdsbk12.ca", [50, 60, 70, 80], None)
+    samuel = markbook.create_student("Samuel", "Jiang", "Male", None, 8765432, 10, "Samuel.Jiang34@ycdsbk12.ca", [90, 30, 70, 50], None)
+    emma = markbook.create_student("Emma", "Winnasdale". "female", None, 9567823, 10, "Emma.Winnasdale34@ycdsbk12.ca", [60, 100, 70, 80], None)
     classroom = markbook.create_classroom("MHF4U", "Advanced Functions", 3, "Mr.Smith", [], [])
-    markbook.add_student_to_classroom(Jayden ,classroom)
-    markbook.add_student_to_classroom(Samuel ,classroom)
-    markbook.add_student_to_classroom(Emma ,classroom)
+    markbook.add_student_to_classroom(jayden ,classroom)
+    markbook.add_student_to_classroom(samuel ,classroom)
+    markbook.add_student_to_classroom(emma ,classroom)
     assert classroom["student_list"] == 3
-    markbook.class_average(classroom)
-    assert class_avg == 67.5
+    avg_of_class = markbook.class_average(classroom)
+    assert avg_of_class == 67.5
