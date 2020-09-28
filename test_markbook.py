@@ -121,15 +121,7 @@ def test_remove_assignment():
     markbook.remove_assignment(assignment, classroom)
     assert len(classroom["assignment_list"]) == 0
     assert type(classroom["assignment_list"]) is list
-    
-    
-def test_student_mark_for_assignment():
-    student = markbook.create_student("Kevin", "Wang", "Male", 234567, 9, "Kevin.Wang25@ycdsbk12.ca", [], "Nothing to report yet")
-    Mark_of_assignment = 89
-    markbook.student_mark_for_assignment(student, Mark_of_assignment)
-    assert student["marks"] == 1
-    assert student["marks"] is list
-    
+  
     
 def test_sort_students_alphabetically():
     classroom = markbook.create_classroom("MHF4U", "Advanced Functions", 3, "Mr.Smith", ["Jayden","Samuel, ""Emma", "Ethan", "Nicholas"], [])
