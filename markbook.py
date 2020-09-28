@@ -7,7 +7,7 @@ Group members: Lex, Jinha, Carsten, Mark
 
 classroom_list = []
 
-
+'''The main interface that the user will see'''
 def gui():
     while True:
         print('       Markbook       ')
@@ -20,7 +20,7 @@ def gui():
         print('to select your choice ')
         print('----------------------')
 
-        choice = int(input("Choice: "))
+        choice = integer_input("Choice: ")
 
         if choice == 1:
             classroom_creation_interface()
@@ -44,7 +44,19 @@ def gui():
         else:
             print('invalid choice')
 
+'''Used to ensure integer inputs'''
+def integer_input(value) -> int:
+    while True:
+        try:
+            num = int(input(value))
 
+        except ValueError:
+            print("Incorrect input. Enter a number.")
+
+        else:
+            return num
+
+'''Shows all the classrooms and allows you to select one to view/edit'''
 def view_classrooms():
     print()
     print('        Classes       ')
@@ -62,7 +74,7 @@ def view_classrooms():
     print('Type and press enter  ')
     print('to select your choice ')
     print('----------------------')
-    option = int(input("Choice: "))
+    option = integer_input("Choice: ")
     if option > len(classroom_list):
         print("Incorrect Value")
         return None
@@ -72,20 +84,23 @@ def view_classrooms():
     return None
 
 
-
+'''Here you can create your classroom'''
 def classroom_creation_interface():
     print()
     print('Fill in the classroom information')
     print('---------------------------------')
     ccode = input('Course Code: ')
     cname = input('Course Name: ')
-    period = int(input('Period Number: '))
+    period = integer_input("Period Number: ")
     teacher = input('Name of Teacher: ')
     temp_class = create_classroom(ccode, cname, period, teacher)
     classroom_list.append(temp_class)
     print()
     return None
 
+'''Here you can view/edit assignments and students for a specific class
+You can also create an assignment report, store class information on a file
+You can also view the classroom's information'''
 def classroom_students_assignments(option):
     room = classroom_list[option-1]
 
@@ -105,7 +120,7 @@ def classroom_students_assignments(option):
         print('Type and press enter  ')
         print('to select your choice ')
         print('---------------------------------')
-        selection = int(input("Choice: "))
+        selection = integer_input("Choice: ")
         if selection == 0:
             return None
 
@@ -140,16 +155,16 @@ def classroom_students_assignments(option):
         else:
             print("Incorrect Value")
 
-
+'''This is the interface that the user sees when creating a student'''
 def student_creation_interface():
     first_name = str(input("First Name: "))
     last_name = str(input("Last Name: "))
     gender = str(input("Gender: "))
     image = input("Image: ")
-    student_number = int(input("Student Number: "))
-    grade = int(input("Grade: "))
+    student_number = integer_input("Student Number: ")
+    grade = integer_input("Grade: ")
     email = str(input("Email: "))
-    print('Hit "enter" after entering all the marks')
+    print('Hit "enter" after entering all the marks or entering no marks')
     marks = [int(item) for item in input("Enter the marks: ").split()]
     print('Hit "enter" when done')
     comments = str(input("Comments: "))
@@ -157,6 +172,7 @@ def student_creation_interface():
                    image, student_number, grade,
                    email, marks, comments)
 
+'''This allows you to view and select all the students in a specific class'''
 def student_view(room):
     student_list = room["student_list"]
     print()
@@ -177,7 +193,7 @@ def student_view(room):
     print('to select your choice ')
     print('----------------------')
     print()
-    option = int(input("Choice: "))
+    option = integer_input("Choice: ")
     if option == 0:
         return student_list
     if option>len(student_list):
@@ -186,6 +202,9 @@ def student_view(room):
     student_list = student_editor(option, student_list, room)
     return student_list
 
+'''This allows you to view/edit/remove students.
+You can make and print their report card here
+and edit/remove/add marks'''
 def student_editor(option, student_list, room):
     while True:
         student = student_list[option - 1]
@@ -201,7 +220,7 @@ def student_editor(option, student_list, room):
         print('Type and press enter  ')
         print('to select your choice ')
         print('----------------------')
-        selection = int(input("Choice: "))
+        selection = integer_input("Choice: ")
         if selection == 0:
             return student_list
 
@@ -227,8 +246,8 @@ def student_editor(option, student_list, room):
             last_name = str(input("Last Name: "))
             gender = str(input("Gender: "))
             image = input("Image: ")
-            student_number = input("Student Number: ")
-            grade = input("Grade: ")
+            student_number = integer_input("Student Number: ")
+            grade = integer_input("Grade: ")
             email = str(input("Email: "))
             comments = str(input("Comments: "))
             info = {"first_name": first_name,
@@ -275,17 +294,20 @@ def student_editor(option, student_list, room):
         else:
             print("Invalid Input")
 
+'''This is the interface that allows the user to create an assignment
+for a specific class'''
 def create_assignment_interface()-> Dict:
     print()
     print('Fill in the assignment information')
     print('---------------------------------')
     aname = input('Name of assignment: ')
     due_date = input('Due date of assignment: ')
-    pointers = int(input('Total points: '))
+    pointers = integer_input("Total Points: ")
     assignment = create_assignment(aname, due_date, pointers)
     print()
     return assignment
 
+'''This function allows you to view/select all the assignments in a specific class'''
 def assignment_viewer(room: Dict):
     alist = room["assignment_list"]
     print()
@@ -306,7 +328,7 @@ def assignment_viewer(room: Dict):
     print('to select your choice ')
     print('----------------------')
     print()
-    option = int(input("Choice: "))
+    option = integer_input("Choice: ")
     if option == 0:
         return alist
     if option>len(alist):
@@ -315,6 +337,7 @@ def assignment_viewer(room: Dict):
     alist = assignment_editor(option, alist, room)
     return alist
 
+'''This allows you to view/edit/remove a specific assignment'''
 def assignment_editor(option, alist, room):
     assignment = alist[option - 1]
     while True:
@@ -327,7 +350,7 @@ def assignment_editor(option, alist, room):
         print('Type and press enter  ')
         print('to select your choice ')
         print('----------------------')
-        selection = int(input("Choice: "))
+        selection = integer_input("Choice: ")
         if selection == 0:
             return alist
 
@@ -361,15 +384,17 @@ def assignment_editor(option, alist, room):
         else:
             print("Invalid Input")
 
-
+'''This function stores a classrooms infromation on a .txt file'''
 def store_class_information(classroom: dict):
     with open(classroom["course_code"]+".txt", "w") as write_file:
         json.dump(classroom, write_file)
     return None
 
+'''This function creates the assignment dictionary'''
 def create_assignment(name: str, due: str, points: int) -> Dict:
     return {"name": name, "due": due, "points": points}
 
+'''This function creates the student dictionary'''
 def create_student(first_name: str, last_name: str, gender: str, image, student_number: int, grade: int, email: str,
                    marks: List[float], comments: str):
     return {
@@ -385,16 +410,20 @@ def create_student(first_name: str, last_name: str, gender: str, image, student_
 
     }
 
+
+'''This function adds an assignment to the "assignment_list" 
+of a specific classroom'''
 def add_assignment(assignment: Dict, classroom: Dict):
     classroom["assignment_list"].append(assignment)
     return None
 
-
+'''This function removes an assignment from the "assignment_list" of
+a specific function'''
 def remove_assignment(assignment: Dict, classroom: Dict):
     classroom["assignment_list"].remove(assignment)
     return None
 
-
+'''This function creates a classroom'''
 def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
 
     return {
@@ -406,15 +435,12 @@ def create_classroom(course_code: str, course_name: str, period: int, teacher: s
         "assignment_list": []
     }
 
-
-def student_mark_for_assignment(student: Dict, Mark_of_assignment: int):
-    student["marks"].append(Mark_of_assignment)
-    return None
-
+'''This function sorts students by alphabetical order'''
 def sort_students_alphabetically(classroom: Dict):
     alphabetically = sorted(classroom["student_list"])
     return alphabetically
 
+'''This function  calculates the average mark of a student'''
 def calculate_average_mark(student: Dict) -> float:
     marks = student["marks"]
     average = 0
@@ -425,25 +451,19 @@ def calculate_average_mark(student: Dict) -> float:
 
     return average
 
-
+'''This function adds a student to the classroom'''
 def add_student_to_classroom(student: Dict, classroom: Dict):
     classroom["student_list"].append(student)
     return None
 
-
+'''This function removes a student from a specific classroom'''
 def remove_student_from_classroom(student: Dict, classroom: Dict):
     classroom["student_list"].remove(student)
     return None
 
-def change_student_classroom(student: Dict, original_classroom: Dict, new_classroom: Dict):
-    remove_student_from_classroom(student, original_classroom)
-    add_student_to_classroom(student, new_classroom)
-
-def order_marks(student: Dict):
-    marks = student["marks"]
-    return sorted(marks)
 
 
+'''This function allows you to edit a student'''
 def edit_student(student: Dict, **kwargs: Dict):
     for i in kwargs.items():
         if i[1] != None and i[1] != "":
@@ -451,14 +471,15 @@ def edit_student(student: Dict, **kwargs: Dict):
 
     return None
 
-
+'''This function returns a list of all the students'''
 def student_list(classroom: Dict) -> List:
     return classroom["student_list"]
 
-
+'''This function returns a list of all the assignments'''
 def assignment_list(classroom: Dict) -> List:
     return classroom["assignment_list"]
 
+'''This function calculates the class average'''
 def class_average(classroom: Dict) -> float:
     students = classroom["student_list"]
     class_avg = 0
@@ -468,6 +489,7 @@ def class_average(classroom: Dict) -> float:
     class_avg = class_avg/len(students)
     return class_avg
 
+'''This function edits the assignment'''
 def edit_assignment(assignment: Dict, **kwargs: Dict):
     for i in kwargs.items():
         if i[1] != None and i[1] != "":
@@ -475,10 +497,11 @@ def edit_assignment(assignment: Dict, **kwargs: Dict):
 
     return None
 
-
+'''This function creates a student report'''
 def student_report(classroom: Dict, student: Dict):
     first = student["first_name"]
     last = student["last_name"]
+    marks = student["marks"].copy()
     print()
     with open(first+"_"+last+".txt", "w") as f:
         f.write("======================\n")
@@ -489,7 +512,7 @@ def student_report(classroom: Dict, student: Dict):
         f.write("Mark Breakdown: \n")
         string = ""
         index = 0
-        for i in order_marks(student):
+        for i in sorted(marks):
             if index == 7:
                 index = 0
                 f.write("\n")
@@ -506,6 +529,7 @@ def student_report(classroom: Dict, student: Dict):
     print(contents)
     return None
 
+'''This function creates the assignment report'''
 def assignment_report(classroom: Dict):
     ccode = classroom["course_code"]
     with open(ccode + "_" + "assignments" + ".txt", "w") as f:
