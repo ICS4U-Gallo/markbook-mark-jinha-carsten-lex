@@ -148,7 +148,22 @@ def classroom_students_assignments(option):
             titles = ["Course Code: ", "Course Name: ", "Period: ",
                       "Teacher: ", "Student List: ", "Assignment List: "]
             for values in room.values():
-                print(titles[index]+str(values))
+                if titles[index] == "Student List: ":
+                    print(titles[index], end=" ")
+                    for i in values:
+                        print(i["first_name"] + " " + i["last_name"], end=" ")
+
+                    print()
+
+                elif titles[index] == "Assignment List: ":
+                    print(titles[index], end=" ")
+                    for i in values:
+                        print(i["name"], end=" ")
+
+                    print()
+
+                else:
+                    print(titles[index]+str(values))
                 index += 1
 
 
@@ -165,6 +180,7 @@ def student_creation_interface():
     grade = integer_input("Grade: ")
     email = str(input("Email: "))
     print('Hit "enter" after entering all the marks or enter no marks')
+    print('Make sure to have spaces between each mark')
     marks = [int(item) for item in input("Enter the marks: ").split()]
     print('Hit "enter" when done')
     comments = str(input("Comments: "))
@@ -280,7 +296,7 @@ def student_editor(option, student_list, room):
 
             student["marks"] = marks
 
-        elif selection == 6:
+        if selection == 6:
             print('Rewrite each mark and hit "enter" afterwards')
             temp = []
             for i in student["marks"]:
@@ -291,7 +307,7 @@ def student_editor(option, student_list, room):
 
 
 
-        if selection >6:
+        if selection > 6:
             print("Invalid Input")
 
 '''This is the interface that allows the user to create an assignment
@@ -385,7 +401,7 @@ def assignment_editor(option, alist, room):
             print("Invalid Input")
 
 '''This function stores a classrooms infromation on a .txt file'''
-def store_class_information(classroom: dict):
+def store_class_information(classroom: Dict):
     with open(classroom["course_code"]+".txt", "w") as write_file:
         json.dump(classroom, write_file)
     return None
