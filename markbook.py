@@ -280,7 +280,7 @@ def student_editor(option, student_list, room):
 
             student["marks"] = marks
 
-        if selection == 6:
+        elif selection == 6:
             print('Rewrite each mark and hit "enter" afterwards')
             temp = []
             for i in student["marks"]:
@@ -291,7 +291,7 @@ def student_editor(option, student_list, room):
 
 
 
-        else:
+        if selection >6:
             print("Invalid Input")
 
 '''This is the interface that allows the user to create an assignment
