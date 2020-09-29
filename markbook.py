@@ -8,6 +8,8 @@ Group members: Lex, Jinha, Carsten, Mark
 classroom_list = []
 
 '''The main interface that the user will see'''
+
+
 def gui():
     while True:
         print('       Markbook       ')
@@ -44,7 +46,10 @@ def gui():
         else:
             print('invalid choice')
 
+
 '''Used to ensure integer inputs'''
+
+
 def integer_input(value) -> int:
     while True:
         try:
@@ -56,7 +61,10 @@ def integer_input(value) -> int:
         else:
             return num
 
+
 '''Shows all the classrooms and allows you to select one to view/edit'''
+
+
 def view_classrooms():
     print()
     print('        Classes       ')
@@ -67,7 +75,7 @@ def view_classrooms():
         return
     index = 1
     for i in classroom_list:
-        print("("+ str(index)+ ")", i["course_code"], i["teacher"])
+        print("(" + str(index) + ")", i["course_code"], i["teacher"])
         index += 1
     print("(0) Exit")
     print()
@@ -85,6 +93,8 @@ def view_classrooms():
 
 
 '''Here you can create your classroom'''
+
+
 def classroom_creation_interface():
     print()
     print('Fill in the classroom information')
@@ -98,9 +108,12 @@ def classroom_creation_interface():
     print()
     return None
 
+
 '''Here you can view/edit assignments and students for a specific class
 You can also create an assignment report, store class information on a file
 You can also view the classroom's information'''
+
+
 def classroom_students_assignments(option):
     room = classroom_list[option-1]
 
@@ -166,11 +179,13 @@ def classroom_students_assignments(option):
                     print(titles[index]+str(values))
                 index += 1
 
-
         else:
             print("Incorrect Value")
 
+
 '''This is the interface that the user sees when creating a student'''
+
+
 def student_creation_interface():
     first_name = str(input("First Name: "))
     last_name = str(input("Last Name: "))
@@ -184,11 +199,13 @@ def student_creation_interface():
     marks = [int(item) for item in input("Enter the marks: ").split()]
     print('Hit "enter" when done')
     comments = str(input("Comments: "))
-    return create_student(first_name, last_name, gender,
-                   image, student_number, grade,
-                   email, marks, comments)
+    return create_student(first_name, last_name, gender, image, student_number,
+                          grade, email, marks, comments)
+
 
 '''This allows you to view and select all the students in a specific class'''
+
+
 def student_view(room):
     student_list = room["student_list"]
     print()
@@ -212,15 +229,18 @@ def student_view(room):
     option = integer_input("Choice: ")
     if option == 0:
         return student_list
-    if option>len(student_list):
+    if option > len(student_list):
         print("Invalid Input")
         return student_list
     student_list = student_editor(option, student_list, room)
     return student_list
 
+
 '''This allows you to view/edit/remove students.
 You can make and print their report card here
 and edit/remove/add marks'''
+
+
 def student_editor(option, student_list, room):
     while True:
         student = student_list[option - 1]
@@ -267,13 +287,13 @@ def student_editor(option, student_list, room):
             email = str(input("Email: "))
             comments = str(input("Comments: "))
             info = {"first_name": first_name,
-            "last_name": last_name,
-            "gender": gender,
-            "image": image,
-            "student_number": student_number,
-            "grade": grade,
-            "email": email,
-            "comments": comments}
+                    "last_name": last_name,
+                    "gender": gender,
+                    "image": image,
+                    "student_number": student_number,
+                    "grade": grade,
+                    "email": email,
+                    "comments": comments}
             edit_student(student, **info)
 
         elif selection == 3:
@@ -300,19 +320,19 @@ def student_editor(option, student_list, room):
             print('Rewrite each mark and hit "enter" afterwards')
             temp = []
             for i in student["marks"]:
-                newmark = int(input(str(i) +": "))
+                newmark = int(input(str(i) + ": "))
                 temp.append(newmark)
                 student["marks"] = temp
-
-
-
 
         if selection > 6:
             print("Invalid Input")
 
+
 '''This is the interface that allows the user to create an assignment
 for a specific class'''
-def create_assignment_interface()-> Dict:
+
+
+def create_assignment_interface() -> Dict:
     print()
     print('Fill in the assignment information')
     print('---------------------------------')
@@ -323,7 +343,11 @@ def create_assignment_interface()-> Dict:
     print()
     return assignment
 
-'''This function allows you to view/select all the assignments in a specific class'''
+
+'''This function allows you to view/select all the assignments in a specific
+class'''
+
+
 def assignment_viewer(room: Dict):
     alist = room["assignment_list"]
     print()
@@ -347,13 +371,16 @@ def assignment_viewer(room: Dict):
     option = integer_input("Choice: ")
     if option == 0:
         return alist
-    if option>len(alist):
+    if option > len(alist):
         print("Invalid Input")
         return alist
     alist = assignment_editor(option, alist, room)
     return alist
 
+
 '''This allows you to view/edit/remove a specific assignment'''
+
+
 def assignment_editor(option, alist, room):
     assignment = alist[option - 1]
     while True:
@@ -400,18 +427,28 @@ def assignment_editor(option, alist, room):
         else:
             print("Invalid Input")
 
+
 '''This function stores a classrooms infromation on a .txt file'''
+
+
 def store_class_information(classroom: Dict):
     with open(classroom["course_code"]+".txt", "w") as write_file:
         json.dump(classroom, write_file)
     return None
 
+
 '''This function creates the assignment dictionary'''
+
+
 def create_assignment(name: str, due: str, points: int) -> Dict:
     return {"name": name, "due": due, "points": points}
 
+
 '''This function creates the student dictionary'''
-def create_student(first_name: str, last_name: str, gender: str, image, student_number: int, grade: int, email: str,
+
+
+def create_student(first_name: str, last_name: str, gender: str, image,
+                   student_number: int, grade: int, email: str,
                    marks: List[float], comments: str):
     return {
         "first_name": first_name,
@@ -427,20 +464,29 @@ def create_student(first_name: str, last_name: str, gender: str, image, student_
     }
 
 
-'''This function adds an assignment to the "assignment_list" 
+'''This function adds an assignment to the "assignment_list"
 of a specific classroom'''
+
+
 def add_assignment(assignment: Dict, classroom: Dict):
     classroom["assignment_list"].append(assignment)
     return None
 
+
 '''This function removes an assignment from the "assignment_list" of
 a specific function'''
+
+
 def remove_assignment(assignment: Dict, classroom: Dict):
     classroom["assignment_list"].remove(assignment)
     return None
 
+
 '''This function creates a classroom'''
-def create_classroom(course_code: str, course_name: str, period: int, teacher: str) -> Dict:
+
+
+def create_classroom(course_code: str, course_name: str, period: int,
+                     teacher: str) -> Dict:
 
     return {
         "course_code": course_code,
@@ -451,12 +497,18 @@ def create_classroom(course_code: str, course_name: str, period: int, teacher: s
         "assignment_list": []
     }
 
+
 '''This function sorts students by alphabetical order'''
+
+
 def sort_students_alphabetically(classroom: Dict):
     alphabetically = sorted(classroom["student_list"])
     return alphabetically
 
+
 '''This function  calculates the average mark of a student'''
+
+
 def calculate_average_mark(student: Dict) -> float:
     marks = student["marks"]
     average = 0
@@ -467,35 +519,51 @@ def calculate_average_mark(student: Dict) -> float:
 
     return average
 
+
 '''This function adds a student to the classroom'''
+
+
 def add_student_to_classroom(student: Dict, classroom: Dict):
     classroom["student_list"].append(student)
     return None
 
+
 '''This function removes a student from a specific classroom'''
+
+
 def remove_student_from_classroom(student: Dict, classroom: Dict):
     classroom["student_list"].remove(student)
     return None
 
 
-
 '''This function allows you to edit a student'''
+
+
 def edit_student(student: Dict, **kwargs: Dict):
     for i in kwargs.items():
-        if i[1] != None and i[1] != "":
+        if i[1] is not None and i[1] != "":
             student[i[0]] = i[1]
 
     return None
 
+
 '''This function returns a list of all the students'''
+
+
 def student_list(classroom: Dict) -> List:
     return classroom["student_list"]
 
+
 '''This function returns a list of all the assignments'''
+
+
 def assignment_list(classroom: Dict) -> List:
     return classroom["assignment_list"]
 
+
 '''This function calculates the class average'''
+
+
 def class_average(classroom: Dict) -> float:
     students = classroom["student_list"]
     class_avg = 0
@@ -505,26 +573,32 @@ def class_average(classroom: Dict) -> float:
     class_avg = class_avg/len(students)
     return class_avg
 
+
 '''This function edits the assignment'''
+
+
 def edit_assignment(assignment: Dict, **kwargs: Dict):
     for i in kwargs.items():
-        if i[1] != None and i[1] != "":
+        if i[1] is not None and i[1] != "":
             assignment[i[0]] = i[1]
 
     return None
 
+
 '''This function creates a student report'''
+
+
 def student_report(classroom: Dict, student: Dict):
     first = student["first_name"]
     last = student["last_name"]
     marks = student["marks"].copy()
     print()
-    with open(first+"_"+last+".txt", "w") as f:
+    with open(first + "_" + last + ".txt", "w") as f:
         f.write("======================\n")
         f.write("        Report        \n")
-        f.write("Class: " + classroom["course_code"]+"\n")
+        f.write("Class: " + classroom["course_code"] + "\n")
         f.write("Student: " + first + " " + last + "\n")
-        f.write("Class Average: " + str(class_average(classroom))+"\n")
+        f.write("Class Average: " + str(class_average(classroom)) + "\n")
         f.write("Mark Breakdown: \n")
         string = ""
         index = 0
@@ -532,47 +606,51 @@ def student_report(classroom: Dict, student: Dict):
             if index == 7:
                 index = 0
                 f.write("\n")
-            f.write(str(i)+" ")
+            f.write(str(i) + " ")
             index += 1
 
         f.write(string + "\n")
 
         f.write("Comments:\n")
-        f.write(student["comments"]+"\n")
+        f.write(student["comments"] + "\n")
         f.write("======================\n")
-    with open(first+"_"+last+".txt", "r") as f:
+    with open(first + "_" + last + ".txt", "r") as f:
         contents = f.read()
     print(contents)
     return None
 
+
 '''This function creates the assignment report'''
+
+
 def assignment_report(classroom: Dict):
     ccode = classroom["course_code"]
     with open(ccode + "_" + "assignments" + ".txt", "w") as f:
         f.write("======================\n")
         f.write("   Assignment Report  \n")
         f.write("\n")
-        f.write("Class: "+ ccode+ "\n")
+        f.write("Class: " + ccode + "\n")
         f.write("\n")
         for i in classroom["assignment_list"]:
             if len(i["name"]) > 16:
-                f.write("Name: " + i["name"][:15]+ "\n")
-                f.write(i["name"][15:]+ "\n")
+                f.write("Name: " + i["name"][:15] + "\n")
+                f.write(i["name"][15:] + "\n")
                 f.write("Due Date: " + i["due"] + "\n")
                 f.write("Points: /" + str(i["points"]) + "\n")
                 f.write("\n")
 
             else:
-                f.write("Name: " + i["name"]+ "\n")
-                f.write("Due Date: "+ i["due"]+"\n")
-                f.write("Points: /"+ str(i["points"])+"\n")
+                f.write("Name: " + i["name"] + "\n")
+                f.write("Due Date: " + i["due"] + "\n")
+                f.write("Points: /" + str(i["points"]) + "\n")
                 f.write("\n")
 
         f.write("======================\n")
 
-    with open(ccode + "_" + "assignments"+".txt", "r") as f:
+    with open(ccode + "_" + "assignments" + ".txt", "r") as f:
         contents = f.read()
     print(contents)
     return None
+
 
 gui()
